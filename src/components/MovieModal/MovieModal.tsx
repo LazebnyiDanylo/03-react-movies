@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect } from "react";
+import { useEffect } from "react";
 import { Movie } from "../../types/movie";
 import css from "./MovieModal.module.css";
 
@@ -14,20 +14,20 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     }
   };
 
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === `Escape`) {
-      onClose();
-    }
-  };
-
   useEffect(() => {
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === `Escape`) {
+        onClose();
+      }
+    };
+
     document.addEventListener("keydown", handleKeyDown);
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  });
+  }, []);
 
   return (
     <div className={css.backdrop} role="dialog" aria-modal="true" onClick={backdropClose}>
